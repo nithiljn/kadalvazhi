@@ -88,14 +88,41 @@ class WeatherService:
     async def _fetch_from_api(self, location: str) -> dict:
         """
         Make HTTP request to OpenWeather API
+        Supports both location names and coordinates (lat,lon format)
         """
         url = f"{self.base_url}/weather"
-        params = {
-            "q": location,
-            "appid": self.api_key,
-            "units": "metric",  # Celsius for Indian users
-            "lang": "en",       # Can add Tamil/Malayalam 
-        }
+        
+        # Check if location is coordinates (format: "lat,lon")
+        if ',' in location:
+            try:
+                parts = location.split(',')
+                lat = float(parts[0].strip())
+                lon = float(parts[1].strip())
+                
+                # Use lat/lon parameters for coordinates
+                params = {
+                    "lat": lat,
+                    "lon": lon,
+                    "appid": self.api_key,
+                    "units": "metric",
+                    "lang": "en",
+                }
+                logger.debug(f"Detected coordinates: lat={lat}, lon={lon}")
+            except (ValueError, IndexError):
+                params = {
+                    "q": location,
+                    "appid": self.api_key,
+                    "units": "metric",
+                    "lang": "en",
+                }
+                logger.debug(f"Invalid coordinate format, treating as location name")
+        else:
+            params = {
+                "q": location,
+                "appid": self.api_key,
+                "units": "metric",  # Celsius for Indian users
+                "lang": "en",       # Can add Tamil/Malayalam
+            }
         
         logger.debug(f"API Request: {url} with params: {params}")
         try:
