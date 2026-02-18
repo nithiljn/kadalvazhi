@@ -11,9 +11,9 @@ logger = get_logger(__name__)
 async def test_weather_service():
     """Test weather service with real API calls"""
     service = WeatherService()
-    print("TEST 1: Fetch weather for trichy ✅")
+    print("TEST 1: Fetch weather for chennai ✅")
     try:
-        userlocation = "colachel"
+        userlocation = "chennai"
         weather = await service.get_weather(userlocation)
         print(f"  Location: {userlocation}")
         print(f"  Temperature: {weather.temperature}°C")

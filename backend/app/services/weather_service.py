@@ -104,7 +104,7 @@ class WeatherService:
                     "lat": lat,
                     "lon": lon,
                     "appid": self.api_key,
-                    "units": "metric",
+                    "units": "metric", # Celsius for Indian users
                     "lang": "en",
                 }
                 logger.debug(f"Detected coordinates: lat={lat}, lon={lon}")
@@ -120,8 +120,8 @@ class WeatherService:
             params = {
                 "q": location,
                 "appid": self.api_key,
-                "units": "metric",  # Celsius for Indian users
-                "lang": "en",       # Can add Tamil/Malayalam
+                "units": "metric", # Celsius for Indian users
+                "lang": "en",
             }
         
         logger.debug(f"API Request: {url} with params: {params}")
