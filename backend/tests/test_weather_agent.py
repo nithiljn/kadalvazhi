@@ -9,7 +9,7 @@ async def test_agent():
     print("TESTING WEATHER AGENT (LangGraph)")
     print("="*60 + "\n")
     
-    location = "Chennai"
+    location = "chennai"
     check_date = date.today()
     
     print(f"Checking weather for: {location}")

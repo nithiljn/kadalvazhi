@@ -2,6 +2,7 @@ from fastapi import FastAPI,Request
 from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 import time
+from app.api.v1 import weather 
 
 from app.utils.logger import get_logger
 from app.config import settings
@@ -18,6 +19,13 @@ app = FastAPI(
     docs_url="/docs" if settings.debug else None, #hide in production
     redoc_url="/redoc" if settings.debug else None,
 )
+
+app.include_router(
+    weather.router,
+    prefix="/api/v1/weather",
+    tags=["weather"]
+)
+
 logger.info("FastAPI app initialized")
 
 # MIDDLEWARE - CORS (Cross-Origin Resource Sharing)
