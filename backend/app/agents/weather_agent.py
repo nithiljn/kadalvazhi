@@ -3,7 +3,7 @@ from typing import Optional
 from datetime import datetime,date
 from langgraph.graph import StateGraph,END,START
 
-from app.services.weather_service import get_weather_service,WeatherAPIError
+from app.services.weather_service import get_weather_service,WeatherAPIError,LocationNotFoundError
 from app.utils.logger import get_logger
 from app.schemas.weather import WeatherData,FishingRecommendation
 
@@ -49,6 +49,9 @@ async def fetch_weather_node(state: WeatherAgentState) -> WeatherAgentState:
         logger.error(f"Weather API error: {e}")
         state['error'] = str(e)
         state['weather_data'] = None
+    except LocationNotFoundError as e: 
+        logger.error(f"Weather API error: {e}")
+        state['error'] = str(e)  
     except Exception as e:
         logger.error(f"Unexpected error in fetch_weather_node: {e}", exc_info=True)
         state['error'] = "An unexpected error occurred while fetching weather"

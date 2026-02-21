@@ -53,17 +53,31 @@ async def check_weather(request: WeatherCheckRequest) -> WeatherCheckResponse:
         if result.get('error'):
             error_msg = result['error']
             logger.error(f"Agent returned error: {error_msg}")
-            
+
             if "not found" in error_msg.lower():
                 raise HTTPException(
                     status_code=status.HTTP_404_NOT_FOUND,
                     detail=error_msg
                 )
-            else:
+            elif error_msg.startswith("WEATHER_API_ERROR:"):
+                # 503 - Weather API unavailable
+                clean_msg = error_msg.replace("WEATHER_API_ERROR: ", "")
                 raise HTTPException(
                     status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
-                    detail=error_msg
+                    detail=clean_msg
                 )
+            else:
+                # 500 - Unknown error
+                clean_msg = error_msg.replace("UNEXPECTED_ERROR: ", "")
+                raise HTTPException(
+                    status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                    detail=clean_msg
+                )   
+            # else:
+            #     raise HTTPException(
+            #         status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            #         detail=error_msg
+            #     )
         
         if not result.get('weather_data'):
             logger.error("Agent returned no weather data")
