@@ -59,7 +59,7 @@ class WeatherCheckRequest(BaseModel):
         json_schema_extra = {
             "example": {
                 "location": "Chennai",
-                "check_date": "2024-01-01",
+                "check_date": "2026-02-22",
             }
         }
 
@@ -199,8 +199,8 @@ class WeatherCheckResponse(BaseModel):
         json_schema_extra = {
             "example": {
                 "location": "Chennai",
-                "check_date": "2025-02-15",
-                "checked_at": "2025-02-12T17:45:30.123456",
+                "check_date": "2026-02-22",
+                "checked_at": "2026-02-21T19:45:30.123456",
                 "weather": {
                     "temperature": 28.5,
                     "feels_like": 30.2,

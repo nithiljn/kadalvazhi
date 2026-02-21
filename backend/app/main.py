@@ -82,7 +82,7 @@ logger.info("Request logging middleware configured")
 async def startup_event():
     logger.info("Application startup")
     logger.info("=" * 60)
-    logger.info("🚀 KadalVazhi API Server Starting...")
+    logger.info(" KadalVazhi API Server Starting...")
     logger.info("=" * 60)
     logger.info(f"Environment: {'DEVELOPMENT' if settings.debug else 'PRODUCTION'}")
     logger.info(f"Model: {settings.model_name}")
@@ -122,4 +122,4 @@ async def health_check():
         "timestamp": time.time(),
     }
 
-logger.info("🎯 main.py loaded successfully")
+logger.info("main.py loaded successfully")

@@ -2,49 +2,34 @@ import logging
 import sys
 from pathlib import Path
 from typing import Optional
-
 from app.config import settings
 
-# ============================================================================
-# PART 1: LOG FILE PATHS
-# ============================================================================
 
+#LOG FILE PATHs
 LOG_DIR = Path(__file__).parent.parent.parent / 'logs'
 LOG_DIR.mkdir(exist_ok=True)
-
 APP_LOG_FILE = LOG_DIR / 'app.log'
 ERROR_LOG_FILE = LOG_DIR / 'error.log'
 
-# ============================================================================
-# PART 2: LOG FORMAT
-# ============================================================================
-
+# LOG FORMAT
 # HOW LOGS WILL LOOK:
 # 2025-02-12 14:30:45,123 - app.services.weather_service - INFO - Fetching weather
 # ↑ Timestamp              ↑ File that logged            ↑ Level  ↑ Message
-
 LOG_FORMAT = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-
 DATE_FORMAT = '%Y-%m-%d %H:%M:%S'
-
 def get_log_level()->int:
     """Get log level based on settings.DEBUG"""
     if settings.debug:
         return logging.DEBUG
     return logging.INFO
 
-    
-# ============================================================================
-# PART 4: CREATE FORMATTERS
-# ============================================================================
-
+#CREATE FORMATTERS
 # FORMATTER: How to format log messages
 # WHY: Separate formatter creation = reusable for different handlers
 formatter = logging.Formatter(
             fmt=LOG_FORMAT,
             datefmt=DATE_FORMAT,
             )
-
 def get_handler()->list[logging.Handler]:
     """ 
     HANDLERS = Where logs go (console, file, database, etc.)
@@ -84,12 +69,9 @@ def get_handler()->list[logging.Handler]:
 
     return handlers
 
-# ============================================================================
-# PART 6: GET LOGGER FUNCTION (MAIN FUNCTION)
-# ============================================================================
+# GET LOGGER FUNCTION (MAIN FUNCTION)
 def get_logger(name:Optional[str]=None)->logging.Logger:
     """Get logger for the application"""
-
     #If logger with this name exists, return it (cached)
     # If not, create new one
     logger = logging.getLogger(name)
@@ -100,11 +82,6 @@ def get_logger(name:Optional[str]=None)->logging.Logger:
     logger.propagate = False #WHY: Prevents logs from appearing twice
     return logger
 
-
 logger = get_logger(__name__)
 
 logger.info("Logger initialized")
-logger.debug(f"file directory: {LOG_DIR}")
-logger.debug(f"app log file: {APP_LOG_FILE}")
-logger.debug(f"error log file: {ERROR_LOG_FILE}")
-logger.debug(f"Log level: {logging.getLevelName(get_log_level())}")
