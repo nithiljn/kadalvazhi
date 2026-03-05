@@ -28,6 +28,7 @@ class WeatherAgentState(TypedDict):
 
     error: Optional[str]
 
+#fetch weather data from openweather api
 async def fetch_weather_node(state: WeatherAgentState) -> WeatherAgentState:
     """
     Node 1: Fetch weather data from OpenWeather API
@@ -59,7 +60,7 @@ async def fetch_weather_node(state: WeatherAgentState) -> WeatherAgentState:
     
     return state
 
-
+#analyze weather conditions for fishing safety
 def analyze_risk_node(state: WeatherAgentState) -> WeatherAgentState:
     """
     Node 2: Analyze weather conditions for fishing safety
@@ -116,6 +117,7 @@ def analyze_risk_node(state: WeatherAgentState) -> WeatherAgentState:
     
     return state
 
+#generate final fishing recommendation
 def generate_recommendation_node(state: WeatherAgentState) -> WeatherAgentState:
     """
     Node 3: Generate final fishing recommendation
@@ -258,6 +260,7 @@ def create_weather_agent() -> StateGraph:
     
     return workflow.compile()
 
+#check weather for fishing
 async def check_weather_for_fishing(location: str,check_date: date) -> dict:
     logger.info(f"Running weather check for {location} on {check_date}")
     graph = create_weather_agent()

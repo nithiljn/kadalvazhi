@@ -37,14 +37,16 @@ class WeatherService:
         )
         
         logger.info("WeatherService initialized")
-    
+
+    #close http client connection
     async def close(self):
         """
         Close HTTP client connection
         """
         await self.client.aclose()
         logger.info("WeatherService client closed")
-    
+
+    #fetch weather data from openweather api
     async def get_weather(self,location: str,max_retries: int = 3) -> WeatherData:
         """
         Fetch weather data for location with retry logic
@@ -84,7 +86,7 @@ class WeatherService:
                         f"Unable to fetch weather data after {max_retries} attempts. "
                         f"Please try again later or check alternative sources."
                     )
-    
+    #make http request to openweather api
     async def _fetch_from_api(self, location: str) -> dict:
         """
         Make HTTP request to OpenWeather API
@@ -179,7 +181,7 @@ class WeatherService:
             logger.error(f"Unexpected error parsing response: {e}")
             raise WeatherAPIError(f"Unable to parse weather data: {e}")
 
-
+#weather service instance
 _weather_service: Optional[WeatherService] = None
 
 def get_weather_service() -> WeatherService:
