@@ -1,6 +1,12 @@
 from pydantic_settings import BaseSettings, SettingsConfigDict
 from functools import lru_cache
 
+AVAILABLE_MODELS = [
+    "qwen/qwen3.6-27b",       
+    "qwen/qwen3-32b",          
+    "openai/gpt-oss-20b",   
+    "openai/gpt-oss-120b",     
+]
 
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(
