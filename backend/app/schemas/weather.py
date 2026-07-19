@@ -16,7 +16,7 @@ class WeatherCheckRequest(BaseModel):
                     )
     check_date: date = Field(
                         description="Date to check weather for (e.g., 2024-01-01)",
-                        examples=["2026-02-15"]
+                        examples=[date.today().isoformat()]
                         )
 
     #custom validators
@@ -59,7 +59,7 @@ class WeatherCheckRequest(BaseModel):
         json_schema_extra = {
             "example": {
                 "location": "Chennai",
-                "check_date": "2026-02-22",
+                "check_date": date.today().isoformat(),
             }
         }
 
@@ -199,7 +199,7 @@ class WeatherCheckResponse(BaseModel):
         json_schema_extra = {
             "example": {
                 "location": "Chennai",
-                "check_date": "2026-02-22",
+                "check_date": date.today().isoformat(),
                 "checked_at": "2026-02-21T19:45:30.123456",
                 "weather": {
                     "temperature": 28.5,
